@@ -219,11 +219,17 @@ async function uploadLogo(input) {
   const file = input.files[0];
   if (!file) return;
   const img = new Image();
-  img.src = URL.createObjectURL(file);
-  await img.decode();
-  const scale = Math.min(1, 256 / Math.max(img.width, img.height));
+  try {
+    await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = URL.createObjectURL(file); });
+  } catch {
+    input.value = '';
+    return toast('Could not read that image file');
+  }
+  input.value = '';   // allow re-uploading the same file
+  const w = img.naturalWidth || 256, h = img.naturalHeight || 256;   // SVGs may have no intrinsic size
+  const scale = Math.min(1, 256 / Math.max(w, h));
   const c = document.createElement('canvas');
-  c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
+  c.width = Math.round(w * scale); c.height = Math.round(h * scale);
   c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
   up({ [`teams/${input.dataset.upload}/logo`]: c.toDataURL('image/png') });
   toast('Logo uploaded');
