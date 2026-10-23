@@ -1,7 +1,7 @@
 # Esports Manager: Broadcast Graphics for vMix
 
 A full broadcast graphics package for **EA SPORTS FC** and **Call of Duty** (plus a generic mode for any map-based game).
-The graphics are web pages hosted on **GitHub Pages**, kept in sync live through **Firebase**, and driven from a control panel you can open on any device.
+The graphics are web pages hosted on **Firebase Hosting**, kept in sync live through the **Firebase Realtime Database**, and driven from a control panel you can open on any device.
 
 vMix needs only **3 Web Browser inputs**:
 
@@ -13,7 +13,7 @@ vMix needs only **3 Web Browser inputs**:
 
 Control panel: `…/control/` (keep it out of vMix; open it in Chrome on the producer's machine, a tablet or a phone).
 
-**Live site:** <https://acenagata.github.io/esports-manager/> (repo `AceNagata/esports-manager`, Firebase project `esports-manager-baadb`).
+**Live site:** <https://esports-manager-baadb.web.app/> (Firebase project `esports-manager-baadb`; source code in GitHub repo `AceNagata/esports-manager`).
 
 ---
 
@@ -48,14 +48,20 @@ The `apiKey` is not a secret. It's safe in a public repo, because the database r
 
 Without Firebase config, everything runs in **local mode**. The control panel and outputs then sync only between tabs of the same browser, which is useful for testing but **won't reach vMix**.
 
-## 3. GitHub Pages (hosting, free)
+## 3. Firebase Hosting (free)
 
-1. Create a GitHub repository (e.g. `esports-overlay`) and upload the contents of this folder to it.
-2. **Settings → Pages → Build and deployment → Deploy from a branch → `main` / root → Save**.
-3. After about a minute your site is live at `https://<username>.github.io/esports-overlay/`.
-   The landing page there lists every output URL with copy buttons.
+The site is served from **https://esports-manager-baadb.web.app**. `firebase.json` sets what's published: the graphics and control panel only, never `README.md`, `firebase.json`, `database.rules.json` or hidden files. It also sends `no-cache`, so a new deploy shows up in browsers and vMix on the next load.
 
-Every change you push goes live within about a minute. Show data (scores, teams, veto) lives in Firebase, so it changes instantly and never needs a push.
+To publish a code change:
+1. Upload the changed files to the GitHub repo `AceNagata/esports-manager`.
+2. Open Cloud Shell: <https://shell.cloud.google.com/?project=esports-manager-baadb>.
+3. Run:
+   ```bash
+   cd; rm -rf em; git clone https://github.com/AceNagata/esports-manager em; cd em; rm -rf .git; firebase deploy --project esports-manager-baadb
+   ```
+   If it says "Failed to authenticate", run `firebase login --no-localhost` first and follow its link.
+
+Show data (scores, teams, colors, logos, veto) lives in the database, so it changes instantly and never needs a deploy.
 
 ## 4. vMix setup
 
@@ -78,7 +84,7 @@ Then:
   | 3 cams | 48, 300, 576, 324 | 672, 300, 576, 324 | 1296, 300, 576, 324 |
 
 Tips:
-- Right-click a browser input → **Refresh** if you ever change the code mid-show. Data changes need no refresh.
+- Right-click a browser input → **Refresh** after deploying a code change mid-show. Data changes need no refresh.
 - **Backup slates**: when a scene looks right, use vMix's **Snapshot Input** (right-click the input) to save a PNG. Load these as image inputs, so you still have holding screens if the internet drops.
 - If the connection drops, the outputs keep showing their last state and reconnect automatically.
 
