@@ -65,6 +65,8 @@ textarea { min-height: 70px; resize: vertical; }
 .score-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; }
 .tside { text-align: center; }
 .tside .tn { font: 800 26px/1 var(--display); text-transform: uppercase; border-bottom: 4px solid var(--tc); padding-bottom: 8px; margin-bottom: 10px; }
+.teamstyle { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.teamstyle .prev .logo { width: 40px; height: 40px; font-size: 40px; }
 .tside .sc { font: 800 72px/1 var(--display); font-variant-numeric: tabular-nums; }
 .tside .row { justify-content: center; }
 .tside .ser { font: 700 18px/1 var(--display); color: var(--muted); margin-top: 8px; letter-spacing: .08em; }

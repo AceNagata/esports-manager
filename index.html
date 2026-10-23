@@ -29,13 +29,12 @@
   <p class="hint" style="margin-top:16px">Add each output as a vMix <b>Web Browser</b> input at 1920×1080. Setup steps are in README.md.</p>
 </main>
 <script type="module">
-  import { CONFIG } from './assets/js/config.js';
-  import { applyTheme, brandLogoHTML, esc } from './assets/js/common.js';
+  import { applyTheme, esc } from './assets/js/common.js';
   applyTheme();
-  document.getElementById('hero').innerHTML = `${brandLogoHTML()}<div><h1>${esc(CONFIG.tournament.name)}</h1><div class="hint">ESPORTS MANAGER · ${esc(CONFIG.tournament.season)}</div></div>`;
+  document.getElementById('hero').innerHTML = `<div><h1>Esports Manager</h1><div class="hint">BROADCAST GRAPHICS FOR VMIX</div></div>`;
   const outs = [
     ['vMix input 1: Scenes', 'Holding, countdown, pauses, intro, veto, bracket, schedule, standings, winner', 'output/scene.html'],
-    ['vMix input 2: In-game overlay', 'Scorebug, series strip, pause banner, lower third, ticker, sponsor', 'output/overlay.html'],
+    ['vMix input 2: In-game overlay', 'Scorebug, series strip, pause banner, lower third, ticker', 'output/overlay.html'],
     ['vMix input 3: Caster frame', '1/2/3-camera frames with nameplates', 'output/cast.html'],
   ];
   document.getElementById('outs').innerHTML = outs.map(([n, d, f]) => {

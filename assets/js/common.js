@@ -30,12 +30,6 @@ export function logoHTML(t, cls = '') {
   return `<div class="logo mono ${cls}" style="--tc:${esc(t.color)}"><span>${esc((t.tag || '?').slice(0, 3))}</span></div>`;
 }
 
-export function brandLogoHTML(cls = '') {
-  const tn = CONFIG.tournament;
-  if (tn.logo) return `<img class="brand-logo ${cls}" src="${esc(asset(tn.logo))}" alt="">`;
-  return `<div class="brand-logo text ${cls}"><span>${esc(tn.short)}</span></div>`;
-}
-
 export function mmss(ms, showHours = false) {
   const neg = ms < 0;
   let s = Math.floor(Math.abs(ms) / 1000);

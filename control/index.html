@@ -22,7 +22,6 @@
     <button class="btn tog" data-toggle="overlay/vetoStrip">Series strip</button>
     <button class="btn tog" data-toggle="lowerThird/visible">Lower third</button>
     <button class="btn tog" data-toggle="overlay/ticker">Ticker</button>
-    <button class="btn tog" data-toggle="overlay/sponsor">Sponsor bug</button>
     <button class="btn tog" data-toggle="pause/banner">Pause banner</button>
     <span class="lbl" style="margin-left:14px">SCENE</span>
     <span id="sceneNow" class="hint">none</span>
@@ -63,6 +62,12 @@
       <div class="score-grid">
         <div class="tside" id="sideA">
           <div class="tn" data-f="name"></div>
+          <div class="teamstyle">
+            <div class="prev" data-f="logo"></div>
+            <input type="color" data-f="color" title="Team color">
+            <label class="btn sm">Upload logo<input type="file" accept="image/*" data-f="upload" hidden></label>
+            <button class="btn sm" data-act="logoClear" data-f="clear">No logo</button>
+          </div>
           <div class="sc" data-f="score"></div>
           <div class="row"><button class="btn big" data-act="score" data-side="A" data-d="-1">−</button><button class="btn big pri" data-act="score" data-side="A" data-d="1">+1</button></div>
           <div class="ser">SERIES <span data-f="series"></span></div>
@@ -98,6 +103,12 @@
         </div>
         <div class="tside" id="sideB">
           <div class="tn" data-f="name"></div>
+          <div class="teamstyle">
+            <div class="prev" data-f="logo"></div>
+            <input type="color" data-f="color" title="Team color">
+            <label class="btn sm">Upload logo<input type="file" accept="image/*" data-f="upload" hidden></label>
+            <button class="btn sm" data-act="logoClear" data-f="clear">No logo</button>
+          </div>
           <div class="sc" data-f="score"></div>
           <div class="row"><button class="btn big" data-act="score" data-side="B" data-d="-1">−</button><button class="btn big pri" data-act="score" data-side="B" data-d="1">+1</button></div>
           <div class="ser">SERIES <span data-f="series"></span></div>
@@ -331,7 +342,7 @@
         <label class="btn">Import JSON<input type="file" accept=".json" id="importFile" hidden></label>
       </div>
       <div class="row"><button class="btn danger" data-act="resetShow">Reset entire show to defaults</button></div>
-      <p class="hint" style="margin-top:10px">Branding (name, colors, logo, sponsors) is set in <code>assets/js/config.js</code>.</p>
+      <p class="hint" style="margin-top:10px">Team colors and logos are set on the Match and Teams tabs.</p>
     </div>
   </div>
 </section>

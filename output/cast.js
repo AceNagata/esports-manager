@@ -1,5 +1,4 @@
-import { CONFIG } from '../assets/js/config.js';
-import { bootOutput, team, logoHTML, brandLogoHTML, setHTML, esc } from '../assets/js/common.js';
+import { bootOutput, team, logoHTML, setHTML, esc } from '../assets/js/common.js';
 
 // Camera windows (x, y, w, h) in 1920x1080 pixels. Position your camera inputs in vMix to match these.
 export const CAM_RECTS = {
@@ -7,8 +6,6 @@ export const CAM_RECTS = {
   2: [[90, 250, 840, 473], [990, 250, 840, 473]],
   3: [[48, 300, 576, 324], [672, 300, 576, 324], [1296, 300, 576, 324]],
 };
-
-const T = CONFIG.tournament;
 
 function render(s) {
   const c = s.cast;
@@ -35,8 +32,7 @@ function render(s) {
       <path fill-rule="evenodd" fill="url(#g)" d="M0 0H1920V1080H0Z${holes}"/>
       <path fill-rule="evenodd" fill="url(#p)" d="M0 0H1920V1080H0Z${holes}"/>
     </svg>
-    <div class="cast-top">
-      <div class="brand">${brandLogoHTML()}<div><div class="n">${esc(T.name)}</div><div class="se">${esc(T.season)}</div></div></div>
+    <div class="cast-top" style="justify-content:center">
       <div class="ttl">${esc(c.title || m.label)}</div>
     </div>
     ${rects.map(([x, y, w, h], i) => {

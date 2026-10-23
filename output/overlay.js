@@ -1,5 +1,4 @@
-import { CONFIG } from '../assets/js/config.js';
-import { bootOutput, team, logoHTML, brandLogoHTML, setHTML, toggle, esc, mmss, clockMs, seriesTarget, asset } from '../assets/js/common.js';
+import { bootOutput, team, logoHTML, setHTML, toggle, esc, mmss, clockMs, seriesTarget } from '../assets/js/common.js';
 import { GAMES, seriesMaps, modeName } from '../assets/js/games.js';
 
 const $ = id => document.getElementById(id);
@@ -78,15 +77,12 @@ function render(s, now) {
 
   // ---- Ticker
   toggle($('ticker'), ov.ticker);
-  setHTML($('tkLabel'), `${brandLogoHTML()}<span>${esc(CONFIG.tournament.hashtag || 'LIVE')}</span>`);
+  setHTML($('tkLabel'), `<span>LIVE</span>`);
   const txt = s.ticker.text || '';
   if ($('tkText').textContent !== txt) {
     $('tkText').textContent = txt;
     $('tkText').style.setProperty('--dur', Math.max(18, txt.length * 0.22) + 's');
   }
-
-  // ---- Sponsor bug
-  toggle($('sponsor'), ov.sponsor);
 }
 
 // Timers: match clock, pause timer.
@@ -111,16 +107,5 @@ function tick(s, now) {
     $('pauseTm').classList.toggle('over', remaining !== null && remaining < 0);
   }
 }
-
-// Sponsor rotation (every 8 s). Falls back to the tournament logo + hashtag.
-let sIdx = 0;
-function rotateSponsor() {
-  const list = CONFIG.sponsors || [];
-  if (!list.length) { setHTML($('sponsor'), `${brandLogoHTML()}<span class="tag">${esc(CONFIG.tournament.name)}</span>`); return; }
-  setHTML($('sponsor'), `<img src="${esc(asset(list[sIdx % list.length]))}" alt="">`);
-  sIdx++;
-}
-rotateSponsor();
-setInterval(rotateSponsor, 8000);
 
 bootOutput(render, tick);

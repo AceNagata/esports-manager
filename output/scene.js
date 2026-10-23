@@ -1,11 +1,10 @@
-import { CONFIG } from '../assets/js/config.js';
-import { bootOutput, team, logoHTML, brandLogoHTML, setHTML, esc, mmss, asset } from '../assets/js/common.js';
+import { bootOutput, team, logoHTML, setHTML, esc, mmss, asset } from '../assets/js/common.js';
 import { GAMES, seriesMaps, modeName, currentStep } from '../assets/js/games.js';
 import { roundsOf, roundName } from '../assets/js/bracket.js';
 
 const $ = id => document.getElementById(id);
 const sections = Object.fromEntries([...document.querySelectorAll('[data-scene]')].map(el => [el.dataset.scene, el]));
-const T = CONFIG.tournament;
+const gameName = s => (GAMES[s.game] || {}).name || '';
 
 let shown = null;        // scene currently visible
 let switching = false;
@@ -28,7 +27,7 @@ const R = {
     const m = s.match, A = team(s, m.a), B = team(s, m.b);
     const cd = s.scene.countdownTo > now;
     return `
-      <div class="kicker rise">${esc(T.name)} · ${esc(T.season)}</div>
+      <div class="kicker rise">${esc(gameName(s))}</div>
       <div class="big rise d1" style="margin-top:24px">${accentLast(s.scene.title || 'STARTING SOON')}</div>
       ${s.scene.subtitle ? `<div class="sub rise d2">${esc(s.scene.subtitle)}</div>` : ''}
       ${cd ? `<div class="rise d3"><div class="cd"><div class="l">STARTING IN</div><div class="v" data-cd="${s.scene.countdownTo}">--:--</div></div></div>` : ''}
@@ -172,7 +171,7 @@ const R = {
         <div class="lbl"><b>${esc(r.label)}</b><i>${st}</i></div>
       </div>`;
     }).join('');
-    return `<div class="rise"><div class="kicker">${esc(T.name)}</div><div class="h-title">TODAY'S <i>SCHEDULE</i></div></div><div class="list">${rows}</div>`;
+    return `<div class="rise"><div class="kicker">${esc(gameName(s))}</div><div class="h-title">TODAY'S <i>SCHEDULE</i></div></div><div class="list">${rows}</div>`;
   },
 
   standings(s) {
@@ -185,7 +184,7 @@ const R = {
           <div class="rk">${i + 1}</div><div class="tm">${logoHTML(t)}<span>${esc(t.name)}</span></div>
           <div class="c">${esc(r.w)}</div><div class="c">${esc(r.l)}</div><div class="c">${diff > 0 ? '+' : ''}${diff}</div><div class="c pts">${esc(r.pts)}</div></div>`;
       }).join('');
-    return `<div class="rise"><div class="kicker">${esc(T.name)}</div><div class="h-title">${accentStandings(s.standingsTitle)}</div></div>
+    return `<div class="rise"><div class="kicker">${esc(gameName(s))}</div><div class="h-title">${accentStandings(s.standingsTitle)}</div></div>
       <div class="st-table">
         <div class="st-row head"><div class="rk">#</div><div class="tm">TEAM</div><div class="c">W</div><div class="c">L</div><div class="c">DIFF</div><div class="c pts">PTS</div></div>
         ${rows}
@@ -214,10 +213,7 @@ const confetti = Array.from({ length: 70 }, (_, i) => {
 
 // ---------------- Frame + switching ----------------
 function frame(s) {
-  setHTML($('top'), `<div class="brand">${brandLogoHTML()}<div><div class="n">${esc(T.name)}</div><div class="se">${esc(T.season)}</div></div></div>
-    <div class="right">${esc((GAMES[s.game] || {}).name || '')}</div>`);
-  setHTML($('bot'), `<div><b>${esc(T.hashtag)}</b></div><div>${esc(T.website)}</div>`);
-  $('wm').textContent = T.short;
+  setHTML($('top'), `<div></div><div class="right">${esc(gameName(s))}</div>`);
   // The intro and winner scenes are full-bleed; hide the top frame there.
   $('top').style.display = ['intro', 'winner'].includes(s.scene.active) ? 'none' : '';
 }

@@ -8,7 +8,7 @@ vMix needs only **3 Web Browser inputs**:
 | # | Input | URL | What's inside |
 |---|---|---|---|
 | 1 | Scenes | `…/output/scene.html` | Starting soon, BRB, ending, countdown, tactical/technical pause, match intro, map veto, bracket, schedule, standings, winner |
-| 2 | In-game overlay | `…/output/overlay.html` | Scorebug (goals + clock for FC, map/mode + series for CoD), series strip, pause banner, lower third, ticker, sponsor bug |
+| 2 | In-game overlay | `…/output/overlay.html` | Scorebug (goals + clock for FC, map/mode + series for CoD), series strip, pause banner, lower third, ticker |
 | 3 | Caster frame | `…/output/cast.html` | 1, 2 or 3 camera frames with nameplates and an "Up next" bar |
 
 Control panel: `…/control/` (keep it out of vMix; open it in Chrome on the producer's machine, a tablet or a phone).
@@ -17,16 +17,15 @@ Control panel: `…/control/` (keep it out of vMix; open it in Chrome on the pro
 
 ---
 
-## 1. Branding
+## 1. Team colors and logos
 
-Edit **`assets/js/config.js`**:
+The graphics carry no tournament branding. Each team's color and logo drive the scorebug, intro, veto, bracket and winner screens.
 
-- `tournament.name`, `short`, `season`, `hashtag`, `website`
-- `tournament.logo`: put your logo in `assets/logos/` and set e.g. `'assets/logos/tournament.png'`
-- `colors`: `accent` (main brand color), `accent2`, and the background shades
-- `sponsors`: list of logo paths; they rotate in the top-right corner of the overlay every 8 seconds
+- **Match tab**: next to each team's score there is a color picker, an **Upload logo** button and **No logo**. These edit whichever team is playing on that side.
+- **Teams tab**: edit every team's name, tag, color, logo and players. A logo can be uploaded (resized to 256 px and stored in the database, no code push needed), or given as a URL or a path like `assets/logos/team.png`.
+- Teams without a logo get a badge with their tag in the team color.
 
-Team logos: put PNG/SVG files in `assets/logos/` and enter the path on the **Teams** tab. You can also click **Upload** there; the logo is resized and stored in the database, so no code push is needed.
+The interface highlight colors (`accent`, `accent2`, backgrounds) can be changed in `assets/js/config.js`.
 
 Map images (optional): save a JPG for each map as `assets/maps/<map-name>.jpg`, lowercase with dashes for spaces (e.g. `den.jpg`, `blackheart.jpg`). The veto cards use them automatically.
 
@@ -87,7 +86,7 @@ Tips:
 
 | Tab | Use it for |
 |---|---|
-| **ON AIR bar** (always visible) | Toggle scorebug, series strip, lower third, ticker, sponsor bug and pause banner; clear the scene |
+| **ON AIR bar** (always visible) | Toggle scorebug, series strip, lower third, ticker and pause banner; clear the scene |
 | **Match** | Game, teams, scores, series, current map (CoD), clock + period + aggregate (FC), swap sides, load next match from the schedule |
 | **Map veto** | Pick the format, then click maps for each highlighted step. Deciders fill automatically. You can undo or clear any step. |
 | **Scenes** | Starting soon / BRB / ending, countdown, intro, veto, bracket, schedule, standings, winner. Click a live (red) button again to take it off. |

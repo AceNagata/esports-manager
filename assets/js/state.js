@@ -37,7 +37,7 @@ export function defaultState() {
     pools: DEFAULT_POOLS,
     veto: { format: 'cod_bo5', steps: buildVeto('cod_bo5', DEFAULT_POOLS) },
     scene: { active: 'none', title: 'STARTING SOON', subtitle: 'The broadcast will begin shortly', countdownTo: 0, bracketSec: 'UB' },
-    overlay: { scorebug: true, vetoStrip: false, ticker: false, sponsor: true },
+    overlay: { scorebug: true, vetoStrip: false, ticker: false },
     pause: { type: '', team: '', startedAt: 0, limitSec: 0, banner: true },
     lowerThird: { visible: false, title: 'PLAYER NAME', subtitle: 'Team Alpha · Captain' },
     ticker: { text: 'Welcome to the broadcast  •  Follow us for highlights  •  Use the tournament hashtag' },

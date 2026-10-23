@@ -1,5 +1,4 @@
-import { CONFIG } from '../assets/js/config.js';
-import { applyTheme, team, logoHTML, brandLogoHTML, esc, mmss, clockMs, setHTML } from '../assets/js/common.js';
+import { applyTheme, team, logoHTML, esc, mmss, clockMs, setHTML } from '../assets/js/common.js';
 import { connectShow } from '../assets/js/sync.js';
 import { defaultState } from '../assets/js/state.js';
 import { GAMES, VETO_FORMATS, buildVeto, currentStep, availableMaps, autoDecide, modeName } from '../assets/js/games.js';
@@ -177,6 +176,7 @@ const ACT = {
 
   // Teams
   teamAdd() { const id = 't' + Date.now().toString(36); up({ ['teams/' + id]: { name: 'New Team', tag: 'NEW', color: '#888888', logo: '', players: '' } }); },
+  logoClear(el) { up({ [`teams/${el.dataset.id}/logo`]: '' }); },
   teamDel(el) { if (confirm('Delete this team?')) up({ ['teams/' + el.dataset.id]: null }); },
 
   // Settings
@@ -298,6 +298,15 @@ function render() {
     const t = team(S, id), el = $('side' + s);
     el.style.setProperty('--tc', t.color);
     el.querySelector('[data-f=name]').textContent = t.name;
+    // Quick team color + logo editing for whichever team is on this side
+    el.querySelector('.teamstyle').style.visibility = id ? '' : 'hidden';
+    setHTML(el.querySelector('[data-f=logo]'), logoHTML(t));
+    const color = el.querySelector('[data-f=color]');
+    color.dataset.bind = `teams/${id}/color`;
+    if (color !== document.activeElement) color.value = t.color;
+    el.querySelector('[data-f=upload]').dataset.upload = id;
+    el.querySelector('[data-f=clear]').dataset.id = id;
+    el.querySelector('[data-f=clear]').disabled = !t.logo;
     el.querySelector('[data-f=score]').textContent = sc;
     el.querySelector('[data-f=series]').textContent = `${se} / ${Math.ceil(m.bestOf / 2)}`;
   });
@@ -421,8 +430,7 @@ setInterval(tick, 250);
 
 // ---------------- Static bits ----------------
 function renderStatic() {
-  const T = CONFIG.tournament;
-  setHTML($('brand'), `${brandLogoHTML()}<div>${esc(T.name)}<small>ESPORTS MANAGER</small></div>`);
+  setHTML($('brand'), `<div>Esports Manager<small>BROADCAST CONTROL</small></div>`);
   const base = new URL('../output/', location.href);
   const outs = [
     ['Input 1: Scenes (full screen)', 'scene.html'],
