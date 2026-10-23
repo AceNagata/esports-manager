@@ -13,6 +13,8 @@ vMix needs only **3 Web Browser inputs**:
 
 Control panel: `…/control/` (keep it out of vMix; open it in Chrome on the producer's machine, a tablet or a phone).
 
+**Live site:** <https://acenagata.github.io/esports-manager/> (repo `AceNagata/esports-manager`, Firebase project `esports-manager-baadb`).
+
 ---
 
 ## 1. Branding
