@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>Scenes</title>
+<link rel="stylesheet" href="../assets/css/theme.css">
+<link rel="stylesheet" href="../assets/css/output.css">
+</head>
+<body>
+<div class="stage">
+  <div class="scene-root" id="root">
+    <div class="bg"><div class="watermark" id="wm"></div></div>
+    <div class="frame-top" id="top"></div>
+    <div class="frame-bot" id="bot"></div>
+
+    <section class="scene holding" data-scene="holding"></section>
+    <section class="scene countdown" data-scene="countdown"></section>
+    <section class="scene pause-full" data-scene="pause"></section>
+    <section class="scene intro" data-scene="intro"></section>
+    <section class="scene veto" data-scene="veto"></section>
+    <section class="scene bracket" data-scene="bracket"></section>
+    <section class="scene schedule" data-scene="schedule"></section>
+    <section class="scene standings" data-scene="standings"></section>
+    <section class="scene winner" data-scene="winner"></section>
+  </div>
+  <div class="wipe" id="wipe"><span></span><span></span><span></span></div>
+</div>
+<script type="module" src="scene.js"></script>
+</body>
+</html>

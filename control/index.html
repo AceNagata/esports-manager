@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Esports Manager · Control</title>
+<link rel="stylesheet" href="../assets/css/theme.css">
+<link rel="stylesheet" href="../assets/css/control.css">
+</head>
+<body>
+
+<header>
+  <div class="hbar">
+    <div class="brand" id="brand"></div>
+    <div class="sp"></div>
+    <div class="status" id="status"><i></i><span>Connecting…</span></div>
+    <button class="btn sm" id="signout" hidden>Sign out</button>
+  </div>
+  <div class="live">
+    <span class="lbl">ON AIR</span>
+    <button class="btn tog" data-toggle="overlay/scorebug">Scorebug</button>
+    <button class="btn tog" data-toggle="overlay/vetoStrip">Series strip</button>
+    <button class="btn tog" data-toggle="lowerThird/visible">Lower third</button>
+    <button class="btn tog" data-toggle="overlay/ticker">Ticker</button>
+    <button class="btn tog" data-toggle="overlay/sponsor">Sponsor bug</button>
+    <button class="btn tog" data-toggle="pause/banner">Pause banner</button>
+    <span class="lbl" style="margin-left:14px">SCENE</span>
+    <span id="sceneNow" class="hint">none</span>
+    <button class="btn sm danger" data-act="sceneOff">Clear scene</button>
+  </div>
+  <nav id="nav">
+    <button data-tab="match" class="on">Match</button>
+    <button data-tab="veto">Map veto</button>
+    <button data-tab="scenes">Scenes</button>
+    <button data-tab="breaks">Breaks</button>
+    <button data-tab="graphics">Lower thirds & casters</button>
+    <button data-tab="bracket">Bracket</button>
+    <button data-tab="schedule">Schedule & standings</button>
+    <button data-tab="teams">Teams</button>
+    <button data-tab="settings">Settings</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- ================= MATCH ================= -->
+<section class="tab on" id="tab-match">
+  <div class="grid">
+    <div class="card" style="grid-column: 1 / -1">
+      <div class="row" style="margin-bottom:14px">
+        <label class="f">Game
+          <select data-act-change="setGame" id="gameSel">
+            <option value="cod">Call of Duty</option>
+            <option value="fc">EA SPORTS FC</option>
+            <option value="generic">Other game</option>
+          </select>
+        </label>
+        <label class="f" style="flex:2">Match label <input data-bind="match/label"></label>
+        <label class="f">Best of <input type="number" min="1" max="9" step="2" data-bind="match/bestOf"></label>
+        <label class="f">Team A <select data-teams data-bind="match/a"></select></label>
+        <label class="f">Team B <select data-teams data-bind="match/b"></select></label>
+      </div>
+      <div class="score-grid">
+        <div class="tside" id="sideA">
+          <div class="tn" data-f="name"></div>
+          <div class="sc" data-f="score"></div>
+          <div class="row"><button class="btn big" data-act="score" data-side="A" data-d="-1">−</button><button class="btn big pri" data-act="score" data-side="A" data-d="1">+1</button></div>
+          <div class="ser">SERIES <span data-f="series"></span></div>
+          <div class="row" style="margin-top:6px"><button class="btn sm" data-act="series" data-side="A" data-d="-1">−</button><button class="btn sm" data-act="series" data-side="A" data-d="1">+</button><button class="btn sm pri" data-act="mapWin" data-side="A">Won map/game</button></div>
+        </div>
+        <div style="text-align:center">
+          <div class="cod-only">
+            <div class="hint">CURRENT MAP</div>
+            <div class="clock" id="mapNo"></div>
+            <div class="row" style="justify-content:center"><button class="btn sm" data-act="mapNo" data-d="-1">−</button><button class="btn sm" data-act="mapNo" data-d="1">+</button></div>
+            <label class="chk" style="justify-content:center;margin-top:10px"><input type="checkbox" data-bind="match/showMapScore"> Show map score</label>
+          </div>
+          <div class="fc-only">
+            <div class="clock" id="clock">00:00</div>
+            <div class="row" style="justify-content:center;margin-top:6px">
+              <button class="btn pri" data-act="clockStart">Start</button>
+              <button class="btn" data-act="clockPause">Pause</button>
+              <button class="btn sm" data-act="clockReset">Reset</button>
+            </div>
+            <div class="row" style="justify-content:center">
+              <input id="clockSet" placeholder="mm:ss" style="width:90px">
+              <button class="btn sm" data-act="clockSet">Set</button>
+              <button class="btn sm" data-act="clockPreset" data-v="45:00">45:00</button>
+              <button class="btn sm" data-act="clockPreset" data-v="90:00">90:00</button>
+            </div>
+            <label class="f" style="margin-top:8px">Period <select data-bind="match/period" id="periodSel"></select></label>
+          </div>
+          <div class="row" style="justify-content:center;margin-top:12px">
+            <button class="btn sm" data-act="swap">⇄ Swap sides</button>
+            <button class="btn sm danger" data-act="resetMatch">Reset scores</button>
+          </div>
+          <div class="row" style="justify-content:center"><button class="btn sm" data-act="nextMatch">Load next match from schedule</button></div>
+        </div>
+        <div class="tside" id="sideB">
+          <div class="tn" data-f="name"></div>
+          <div class="sc" data-f="score"></div>
+          <div class="row"><button class="btn big" data-act="score" data-side="B" data-d="-1">−</button><button class="btn big pri" data-act="score" data-side="B" data-d="1">+1</button></div>
+          <div class="ser">SERIES <span data-f="series"></span></div>
+          <div class="row" style="margin-top:6px"><button class="btn sm" data-act="series" data-side="B" data-d="-1">−</button><button class="btn sm" data-act="series" data-side="B" data-d="1">+</button><button class="btn sm pri" data-act="mapWin" data-side="B">Won map/game</button></div>
+        </div>
+      </div>
+      <p class="hint" style="margin-top:14px">Hotkeys: <kbd>1</kbd>/<kbd>2</kbd> add a point to team A/B, <kbd>Shift</kbd>+<kbd>1</kbd>/<kbd>2</kbd> remove one, <kbd>S</kbd> toggles the scorebug, <kbd>Esc</kbd> clears the scene.</p>
+    </div>
+
+    <div class="card fc-only">
+      <h2>EA FC extras</h2>
+      <div class="row">
+        <label class="f">Team A plays as (club / squad) <input data-bind="match/pickA" placeholder="e.g. Real Madrid"></label>
+        <label class="f">Team B plays as <input data-bind="match/pickB" placeholder="e.g. Man City"></label>
+      </div>
+      <h3>Two-legged tie</h3>
+      <div class="row">
+        <label class="chk"><input type="checkbox" data-bind="match/agg/on"> Show aggregate</label>
+        <label class="f">Agg A <input type="number" data-bind="match/agg/a"></label>
+        <label class="f">Agg B <input type="number" data-bind="match/agg/b"></label>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VETO ================= -->
+<section class="tab" id="tab-veto">
+  <div class="grid">
+    <div class="card">
+      <h2>Map veto</h2>
+      <div class="row">
+        <label class="f">Format <select id="vetoFormat" data-act-change="vetoFormat"></select></label>
+      </div>
+      <div class="row">
+        <button class="btn" data-act="vetoUndo">↶ Undo last</button>
+        <button class="btn danger" data-act="vetoReset">Reset veto</button>
+        <button class="btn" data-scene-btn="veto" data-act="scene" data-scene="veto">Show veto scene</button>
+        <button class="btn tog" data-toggle="overlay/vetoStrip">Series strip</button>
+      </div>
+      <h3>Steps</h3>
+      <div class="steps" id="steps"></div>
+    </div>
+    <div class="card">
+      <h2 id="vetoPrompt">Pick a map</h2>
+      <div class="mapbtns" id="mapbtns"></div>
+      <p class="hint" style="margin-top:12px">Click a map for the highlighted step. A decider fills in automatically when one map is left. Click a finished step to clear it.</p>
+    </div>
+  </div>
+  <p class="hint fc-only" style="margin-top:14px">EA FC has no map veto. Switch the game on the Match tab to use this.</p>
+</section>
+
+<!-- ================= SCENES ================= -->
+<section class="tab" id="tab-scenes">
+  <div class="grid">
+    <div class="card">
+      <h2>Holding screens</h2>
+      <div class="row">
+        <button class="btn big" data-act="holding" data-preset="starting" data-scene-btn="holding:starting">Starting soon</button>
+        <button class="btn big" data-act="holding" data-preset="brb" data-scene-btn="holding:brb">Be right back</button>
+        <button class="btn big" data-act="holding" data-preset="ending" data-scene-btn="holding:ending">Thanks for watching</button>
+      </div>
+      <div class="row">
+        <label class="f">Title <input data-bind="scene/title"></label>
+      </div>
+      <div class="row">
+        <label class="f">Subtitle <input data-bind="scene/subtitle"></label>
+      </div>
+      <h3>Countdown</h3>
+      <div class="row">
+        <label class="f">Minutes <input type="number" id="cdMin" value="5" min="0" step="0.5"></label>
+        <button class="btn" data-act="cdSet">Set countdown</button>
+        <button class="btn sm" data-act="cdClear">Clear</button>
+        <button class="btn big" data-act="scene" data-scene="countdown" data-scene-btn="countdown">Show countdown</button>
+      </div>
+      <p class="hint">The countdown also shows on the holding screens while it runs.</p>
+    </div>
+    <div class="card">
+      <h2>Match scenes</h2>
+      <div class="row">
+        <button class="btn big" data-act="scene" data-scene="intro" data-scene-btn="intro">Match intro</button>
+        <button class="btn big" data-act="scene" data-scene="veto" data-scene-btn="veto">Map veto</button>
+        <button class="btn big" data-act="scene" data-scene="pause" data-scene-btn="pause">Pause (full)</button>
+      </div>
+      <h3>Tournament scenes</h3>
+      <div class="row">
+        <button class="btn big" data-act="scene" data-scene="bracket" data-scene-btn="bracket">Bracket</button>
+        <button class="btn big" data-act="scene" data-scene="schedule" data-scene-btn="schedule">Schedule</button>
+        <button class="btn big" data-act="scene" data-scene="standings" data-scene-btn="standings">Standings</button>
+      </div>
+      <div class="row">
+        <label class="f">Bracket view (double elim)
+          <select data-bind="scene/bracketSec"><option value="UB">Upper + final</option><option value="LB">Lower</option><option value="ALL">Both (compact)</option></select>
+        </label>
+      </div>
+      <h3>Winner</h3>
+      <div class="row">
+        <label class="f">Team <select data-teams data-bind="winner/team"></select></label>
+        <label class="f">Title <input data-bind="winner/title"></label>
+        <button class="btn big pri" data-act="scene" data-scene="winner" data-scene-btn="winner">Show winner</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BREAKS ================= -->
+<section class="tab" id="tab-breaks">
+  <div class="grid">
+    <div class="card">
+      <h2>Pauses</h2>
+      <div class="row">
+        <button class="btn big" data-act="pause" data-type="tactical" data-team="A" id="tacA">Tactical: Team A</button>
+        <button class="btn big" data-act="pause" data-type="tactical" data-team="B" id="tacB">Tactical: Team B</button>
+      </div>
+      <div class="row">
+        <button class="btn big" data-act="pause" data-type="technical" data-team="">Technical pause</button>
+        <button class="btn big danger" data-act="pauseEnd">End pause</button>
+      </div>
+      <div class="row">
+        <label class="f">Time limit, seconds (0 = count up) <input type="number" min="0" id="pauseLimit" value="0"></label>
+      </div>
+      <div class="row">
+        <button class="btn tog" data-toggle="pause/banner">Banner on overlay</button>
+        <button class="btn" data-act="scene" data-scene="pause" data-scene-btn="pause">Full-screen pause scene</button>
+      </div>
+      <h3>Now</h3>
+      <div class="clock" id="pauseNow">—</div>
+    </div>
+    <div class="card">
+      <h2>Breaks between maps</h2>
+      <p class="hint">Use the holding screens for longer breaks.</p>
+      <div class="row" style="margin-top:10px">
+        <button class="btn big" data-act="holding" data-preset="brb" data-scene-btn="holding:brb">Be right back</button>
+        <button class="btn" data-act="cdQuick" data-min="5">BRB + 5 min</button>
+        <button class="btn" data-act="cdQuick" data-min="10">BRB + 10 min</button>
+        <button class="btn" data-act="cdQuick" data-min="15">BRB + 15 min</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GRAPHICS ================= -->
+<section class="tab" id="tab-graphics">
+  <div class="grid">
+    <div class="card">
+      <h2>Lower third</h2>
+      <label class="f">Title <input data-bind="lowerThird/title"></label>
+      <label class="f" style="margin-top:8px">Subtitle <input data-bind="lowerThird/subtitle"></label>
+      <div class="row" style="margin-top:10px"><button class="btn big tog" data-toggle="lowerThird/visible">Show lower third</button></div>
+      <h3>Quick fill</h3>
+      <div class="row" id="l3presets"></div>
+      <h3>Ticker</h3>
+      <textarea data-bind="ticker/text"></textarea>
+      <div class="row" style="margin-top:8px"><button class="btn tog" data-toggle="overlay/ticker">Show ticker</button></div>
+    </div>
+    <div class="card">
+      <h2>Caster frame</h2>
+      <div class="row">
+        <button class="btn big" data-act="castLayout" data-v="0">Off</button>
+        <button class="btn big" data-act="castLayout" data-v="1">1 cam</button>
+        <button class="btn big" data-act="castLayout" data-v="2">2 cams</button>
+        <button class="btn big" data-act="castLayout" data-v="3">3 cams</button>
+      </div>
+      <label class="f" style="margin-top:10px">Title (blank = match label) <input data-bind="cast/title"></label>
+      <label class="chk" style="margin-top:8px"><input type="checkbox" data-bind="cast/showNext"> Show "Up next" match</label>
+      <h3>Casters</h3>
+      <div id="casters"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BRACKET ================= -->
+<section class="tab" id="tab-bracket">
+  <div class="card">
+    <h2>Bracket</h2>
+    <div class="row">
+      <label class="f">Type <select id="bType"><option value="single">Single elimination</option><option value="double">Double elimination</option></select></label>
+      <label class="f">Teams <select id="bSize"><option>4</option><option selected>8</option><option>16</option></select></label>
+      <button class="btn danger" data-act="bracketGen">Generate (seeds teams in Teams-tab order)</button>
+      <button class="btn big" data-act="scene" data-scene="bracket" data-scene-btn="bracket">Show bracket</button>
+    </div>
+    <p class="hint">Enter scores, then click the winner. Winners and losers move on automatically.</p>
+    <div id="bracketEd" style="margin-top:14px"></div>
+  </div>
+</section>
+
+<!-- ================= SCHEDULE / STANDINGS ================= -->
+<section class="tab" id="tab-schedule">
+  <div class="grid">
+    <div class="card" style="grid-column: 1 / -1">
+      <h2>Schedule</h2>
+      <table><thead><tr><th>Time</th><th>Team A</th><th>Team B</th><th>Label</th><th>Score A</th><th>Score B</th><th>Status</th><th></th></tr></thead><tbody id="schedRows"></tbody></table>
+      <div class="row" style="margin-top:10px"><button class="btn" data-act="schedAdd">+ Add match</button><button class="btn big" data-act="scene" data-scene="schedule" data-scene-btn="schedule">Show schedule</button></div>
+    </div>
+    <div class="card" style="grid-column: 1 / -1">
+      <h2>Standings</h2>
+      <label class="f" style="max-width:320px">Table title <input data-bind="standingsTitle"></label>
+      <table style="margin-top:10px"><thead><tr><th>Team</th><th>W</th><th>L</th><th>Diff</th><th>Pts</th><th></th></tr></thead><tbody id="standRows"></tbody></table>
+      <div class="row" style="margin-top:10px"><button class="btn" data-act="standAdd">+ Add team</button><button class="btn big" data-act="scene" data-scene="standings" data-scene-btn="standings">Show standings</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TEAMS ================= -->
+<section class="tab" id="tab-teams">
+  <div class="card">
+    <h2>Teams</h2>
+    <p class="hint">Logo: a path such as <code>assets/logos/team.png</code>, a full URL, or click Upload (stored in the database, resized to 256 px).</p>
+    <div class="teamrow" style="border:0"><span></span><span class="hint">NAME</span><span class="hint">TAG</span><span class="hint">COLOR</span><span class="hint">LOGO</span><span class="hint">PLAYERS (comma separated)</span><span></span></div>
+    <div id="teamRows"></div>
+    <div class="row" style="margin-top:12px"><button class="btn pri" data-act="teamAdd">+ Add team</button></div>
+  </div>
+</section>
+
+<!-- ================= SETTINGS ================= -->
+<section class="tab" id="tab-settings">
+  <div class="grid">
+    <div class="card urls">
+      <h2>vMix Browser inputs</h2>
+      <p class="hint">Add each one as a Web Browser input at 1920×1080. See the README for the full setup.</p>
+      <div id="urls"></div>
+    </div>
+    <div class="card">
+      <h2>Map pools</h2>
+      <p class="hint">One map per line. Reset the veto after changing a pool.</p>
+      <div id="pools"></div>
+    </div>
+    <div class="card">
+      <h2>Show data</h2>
+      <div class="row">
+        <button class="btn" data-act="export">Export JSON backup</button>
+        <label class="btn">Import JSON<input type="file" accept=".json" id="importFile" hidden></label>
+      </div>
+      <div class="row"><button class="btn danger" data-act="resetShow">Reset entire show to defaults</button></div>
+      <p class="hint" style="margin-top:10px">Branding (name, colors, logo, sponsors) is set in <code>assets/js/config.js</code>.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div class="login" id="login">
+  <form id="loginForm" class="card">
+    <h2>Operator sign-in</h2>
+    <input type="email" id="lgEmail" placeholder="Email" autocomplete="username" required>
+    <input type="password" id="lgPass" placeholder="Password" autocomplete="current-password" required>
+    <button class="btn pri big" type="submit">Sign in</button>
+    <p class="hint" id="lgErr"></p>
+  </form>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module" src="control.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "show": {
+      ".read": true,
+      ".write": "auth != null && root.child('operators').child(auth.uid).exists()"
+    },
+    "$other": {
+      ".read": true,
+      ".write": "$other !== 'operators' && auth != null && root.child('operators').child(auth.uid).exists()"
+    },
+    "operators": {
+      ".read": false,
+      ".write": false
+    }
+  }
+}

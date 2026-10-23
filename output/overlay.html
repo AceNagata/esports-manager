@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>In-Game Overlay</title>
+<link rel="stylesheet" href="../assets/css/theme.css">
+<link rel="stylesheet" href="../assets/css/output.css">
+</head>
+<body>
+<div class="stage">
+
+  <!-- Sponsor / brand bug -->
+  <div class="sponsor" id="sponsor"></div>
+
+  <!-- Scorebug -->
+  <div class="sb" id="sb">
+    <div class="sb-main">
+      <div class="sb-team a" id="sbA">
+        <div class="logo-wrap" data-f="logo"></div>
+        <div class="names"><div class="tag" data-f="tag"></div><div class="nm" data-f="nm"></div></div>
+        <div class="sb-score" data-f="score"></div>
+      </div>
+      <div class="sb-mid"><div class="big" id="sbBig"></div><div class="small" id="sbSmall"></div></div>
+      <div class="sb-team b" id="sbB">
+        <div class="logo-wrap" data-f="logo"></div>
+        <div class="names"><div class="tag" data-f="tag"></div><div class="nm" data-f="nm"></div></div>
+        <div class="sb-score" data-f="score"></div>
+      </div>
+    </div>
+    <div class="sb-sub">
+      <div><div class="pips a" id="pipsA"></div></div>
+      <div class="lbl" id="sbLabel"></div>
+      <div><div class="pips b" id="pipsB"></div></div>
+    </div>
+  </div>
+
+  <!-- Pause banner -->
+  <div class="pause-banner" id="pause">
+    <div class="kind"><span class="dot"></span><span id="pauseKind"></span></div>
+    <div class="who" id="pauseWho"></div>
+    <div class="tm" id="pauseTm">00:00</div>
+  </div>
+
+  <!-- Compact veto / series maps -->
+  <div class="veto-strip" id="vstrip"></div>
+
+  <!-- Lower third -->
+  <div class="l3" id="l3"><div class="t" id="l3t"></div><div class="s" id="l3s"></div></div>
+
+  <!-- Ticker -->
+  <div class="ticker" id="ticker">
+    <div class="tk-label" id="tkLabel"></div>
+    <div class="tk-track"><div class="tk-text" id="tkText"></div></div>
+  </div>
+
+</div>
+<script type="module" src="overlay.js"></script>
+</body>
+</html>

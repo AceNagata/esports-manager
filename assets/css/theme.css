@@ -1,0 +1,43 @@
+/* Design tokens. Colors are overridden at runtime from assets/js/config.js */
+:root {
+  --accent: #FFB800;
+  --accent2: #00D1FF;
+  --bg: #0B0D12;
+  --panel: #141821;
+  --panel2: #1C2130;
+  --text: #F4F6FA;
+  --muted: #8A93A6;
+  --live: #FF2E4D;
+  --line: rgba(255, 255, 255, .08);
+
+  --display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --body: 'Barlow', 'Segoe UI', sans-serif;
+
+  --skew: -12deg;
+  --ease: cubic-bezier(.2, .9, .1, 1);
+  --ease-in: cubic-bezier(.6, 0, .9, .4);
+  --t-in: .55s;
+  --t-out: .35s;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Team logo monogram fallback */
+.logo { display: block; object-fit: contain; }
+.logo.mono {
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .12), rgba(0, 0, 0, .4)), var(--tc);
+  clip-path: polygon(14% 0, 100% 0, 86% 100%, 0 100%);
+  font-family: var(--display); font-weight: 800; color: #fff; letter-spacing: .02em;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, .25);
+}
+.logo.mono span { font-size: .38em; line-height: 1; }
+
+.brand-logo { display: block; object-fit: contain; }
+.brand-logo.text {
+  display: grid; place-items: center;
+  background: var(--accent); color: var(--bg);
+  clip-path: polygon(14% 0, 100% 0, 86% 100%, 0 100%);
+  font-family: var(--display); font-weight: 900;
+}
+.brand-logo.text span { font-size: .42em; line-height: 1; letter-spacing: .02em; }
